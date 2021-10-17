@@ -12,7 +12,7 @@ def generic_file_read(filename):
         file = f.read()
 
     file = file.split("\n")
-    file = file[1:]
+    file = file[1:-1]
 
 
     labels = []
@@ -44,7 +44,7 @@ def citire_labels():
     labels = None
     with open(os.path.join("to_predict" , "labels.txt"), "r") as f:
         labels = f.read()
-        labels = labels.split("\n")
+        labels = labels.split(" ")
     labels = list(map(lambda x: int(x), labels))
     return labels
 
@@ -58,6 +58,7 @@ def predict_folder(no_plotting = True):
     path = os.path.join("to_predict", "photos_to_predict")
     photo_names = os.listdir(path)
     
+    photo_names = [elem for elem in photo_names if elem != "README.txt"]
     photo_names.sort(key= lambda elem: int(elem.split(".")[0]))
 
     for id, photo_name in enumerate(photo_names):
@@ -85,20 +86,14 @@ class IA():
     def train_IA(self):
         test_samples, test_labels, train_samples, train_labels =    read_files()
         train_samples = normalizare(train_samples)
-        test_samples = normalizare(test_samples)
-
 
         formatie_neuroni = [784, 2500, 2000, 1500, 1000, 500]
-        formatie_neuroni = [10, 13, 15, 13, 10]
         
 
         clf = MLPClassifier(solver='adam', alpha=10**-5,
                             hidden_layer_sizes=(formatie_neuroni), random_state=5)
 
         clf.fit(train_samples, train_labels)
-
-        self.test_samples = test_samples
-        self.test_labels = test_labels
         self.clf = clf
     
     def compute_accuracy(self, test_samples=None, test_labels=None):

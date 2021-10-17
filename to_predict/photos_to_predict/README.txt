@@ -1,0 +1,1 @@
+Put photos in this folder. Names should be integers that match the order in labels.txt

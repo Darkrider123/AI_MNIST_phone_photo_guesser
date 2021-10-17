@@ -1,7 +1,7 @@
 from IA import *
 
 def main():
-    citire_poza("Download", "34.jfif", 0, False)
+    predict_folder(False)
     plt.show()
 
 if __name__ == '__main__':
